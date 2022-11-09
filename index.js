@@ -4,11 +4,30 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const userRouter = require("./Router/users");
+const authRouter = require("./Router/auth");
 
 dotenv.config();
-mongoose.connect(process.env.MONGO_URL, () => {
-  console.log("db connect");
-});
+
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(`successfully connected`);
+  })
+  .catch((e) => {
+    console.log(`not connected`);
+  });
+
+//middleware
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 app.listen(8088, () => {
   console.log("backend server is running!");
