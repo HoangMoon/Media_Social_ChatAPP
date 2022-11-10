@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const userRouter = require("./Router/users");
 const authRouter = require("./Router/auth");
+const postRouter = require("./Router/posts");
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use(morgan("common"));
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter);
 
 app.listen(8088, () => {
   console.log("backend server is running!");
